@@ -49,6 +49,13 @@ def convert():
         "no_warnings": True,
     }
 
+    cookie_path = "/etc/secrets/cookies.txt"
+    if not os.path.exists(cookie_path):
+        cookie_path = "cookies.txt"
+
+    if os.path.exists(cookie_path):
+        ydl_opts["cookiefile"] = cookie_path
+
     try:
         with yt_dlp.YoutubeDL(ydl_opts) as ydl:
             info = ydl.extract_info(url, download=True)
@@ -92,6 +99,13 @@ def info():
         return jsonify({"error": "Invalid YouTube URL."}), 400
 
     ydl_opts = {"quiet": True, "no_warnings": True, "skip_download": True}
+
+    cookie_path = "/etc/secrets/cookies.txt"
+    if not os.path.exists(cookie_path):
+        cookie_path = "cookies.txt"
+
+    if os.path.exists(cookie_path):
+        ydl_opts["cookiefile"] = cookie_path
 
     try:
         with yt_dlp.YoutubeDL(ydl_opts) as ydl:
