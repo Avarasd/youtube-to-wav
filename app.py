@@ -37,10 +37,10 @@ def convert():
     out_path = f"/tmp/{job_id}.wav"
 
     ydl_opts = {
-        "format": "bestaudio/best/ba/b",
+        "format": "bestaudio/best",
         "outtmpl": out_template,
         "extractor_args": {
-            "youtube": ["player_client=android,ios,web"]
+            "youtube": ["player_client=android,ios"]
         },
         "postprocessors": [
             {
@@ -58,12 +58,16 @@ def convert():
         cookie_path = "cookies.txt"
 
     if os.path.exists(cookie_path):
+        print(f"LOADING COOKIES FROM {cookie_path} for /convert", flush=True)
         tmp_cookie_path = "/tmp/yt_cookies.txt"
         try:
             shutil.copy2(cookie_path, tmp_cookie_path)
             ydl_opts["cookiefile"] = tmp_cookie_path
-        except Exception:
+        except Exception as e:
+            print(f"Failed to copy cookies: {e}", flush=True)
             ydl_opts["cookiefile"] = cookie_path
+    else:
+        print(f"NO COOKIES FOUND AT {cookie_path}", flush=True)
 
     if os.path.exists("./ffmpeg"):
         ydl_opts["ffmpeg_location"] = "./ffmpeg"
@@ -115,7 +119,7 @@ def info():
         "no_warnings": True, 
         "skip_download": True,
         "extractor_args": {
-            "youtube": ["player_client=android,ios,web"]
+            "youtube": ["player_client=android,ios"]
         }
     }
 
@@ -124,12 +128,15 @@ def info():
         cookie_path = "cookies.txt"
 
     if os.path.exists(cookie_path):
+        print(f"LOADING COOKIES FROM {cookie_path} for /info", flush=True)
         tmp_cookie_path = "/tmp/yt_cookies.txt"
         try:
             shutil.copy2(cookie_path, tmp_cookie_path)
             ydl_opts["cookiefile"] = tmp_cookie_path
         except Exception:
             ydl_opts["cookiefile"] = cookie_path
+    else:
+        print(f"NO COOKIES FOUND AT {cookie_path} for /info", flush=True)
 
     if os.path.exists("./ffmpeg"):
         ydl_opts["ffmpeg_location"] = "./ffmpeg"
