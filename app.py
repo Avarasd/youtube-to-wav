@@ -37,10 +37,10 @@ def convert():
     out_path = f"/tmp/{job_id}.wav"
 
     ydl_opts = {
-        "format": "bestaudio/best",
+        "format": "bestaudio/best/b/ba",
         "outtmpl": out_template,
         "extractor_args": {
-            "youtube": ["player_client=android,ios"]
+            "youtube": ["player_client=android,ios,tv,web,mweb"]
         },
         "postprocessors": [
             {
@@ -119,7 +119,7 @@ def info():
         "no_warnings": True, 
         "skip_download": True,
         "extractor_args": {
-            "youtube": ["player_client=android,ios"]
+            "youtube": ["player_client=android,ios,tv,web,mweb"]
         }
     }
 
