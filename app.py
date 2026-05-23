@@ -19,7 +19,12 @@ def ensure_node():
         with tarfile.open(tar_path, "r:xz") as tar:
             tar.extractall(path="/tmp")
         os.remove(tar_path)
-    os.environ["PATH"] += os.pathsep + node_bin
+    
+    node_exe = os.path.join(node_bin, "node")
+    if os.path.exists(node_exe):
+        os.chmod(node_exe, 0o755)
+        
+    os.environ["PATH"] = node_bin + os.pathsep + os.environ.get("PATH", "")
 
 ensure_node()
 
