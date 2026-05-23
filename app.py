@@ -5,6 +5,9 @@ import uuid
 import re
 import shutil
 
+# Add current directory to PATH so yt-dlp can find the 'node' binary
+os.environ["PATH"] += os.pathsep + os.path.dirname(os.path.abspath(__file__))
+
 app = Flask(__name__, static_folder="static", template_folder="templates")
 
 YOUTUBE_REGEX = re.compile(

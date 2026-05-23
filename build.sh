@@ -8,13 +8,19 @@ pip install --upgrade yt-dlp
 
 # Download and extract static ffmpeg if not present
 if [ ! -f "ffmpeg" ]; then
-    echo "Downloading static FFmpeg..."
-    curl -L -o ffmpeg.tar.xz https://johnvansickle.com/ffmpeg/releases/ffmpeg-release-amd64-static.tar.xz
-    tar -xJvf ffmpeg.tar.xz
-    # Move ffmpeg and ffprobe binaries to the root directory
+    echo "Downloading ffmpeg..."
+    wget https://johnvansickle.com/ffmpeg/releases/ffmpeg-release-amd64-static.tar.xz
+    tar -xf ffmpeg-release-amd64-static.tar.xz
     mv ffmpeg-*-static/ffmpeg .
     mv ffmpeg-*-static/ffprobe .
-    # Clean up
-    rm -rf ffmpeg-*-static ffmpeg.tar.xz
+    rm -rf ffmpeg-*-static* ffmpeg-release-amd64-static.tar.xz
     echo "FFmpeg installed successfully."
+fi
+
+# Download Node.js to solve YouTube's JS challenges (signatures)
+if [ ! -f "node" ]; then
+    echo "Downloading Node.js..."
+    curl -sL https://nodejs.org/dist/v20.11.1/node-v20.11.1-linux-x64.tar.xz | tar -xJ
+    mv node-v20.11.1-linux-x64/bin/node .
+    rm -rf node-v20.11.1-linux-x64
 fi
