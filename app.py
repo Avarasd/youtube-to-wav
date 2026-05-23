@@ -8,16 +8,18 @@ import tarfile
 import uuid
 
 def ensure_node():
-    node_dir = "/tmp/node-v20.11.1-linux-x64"
+    base_dir = os.path.dirname(os.path.abspath(__file__))
+    node_dir = os.path.join(base_dir, "node-v20.11.1-linux-x64")
     node_bin = os.path.join(node_dir, "bin")
+    
     if not os.path.exists(os.path.join(node_bin, "node")):
         print("Downloading Node.js for yt-dlp to solve YouTube signatures...", flush=True)
         url = "https://nodejs.org/dist/v20.11.1/node-v20.11.1-linux-x64.tar.xz"
-        tar_path = "/tmp/node.tar.xz"
+        tar_path = os.path.join(base_dir, "node.tar.xz")
         urllib.request.urlretrieve(url, tar_path)
         print("Extracting Node.js...", flush=True)
         with tarfile.open(tar_path, "r:xz") as tar:
-            tar.extractall(path="/tmp")
+            tar.extractall(path=base_dir)
         os.remove(tar_path)
     
     node_exe = os.path.join(node_bin, "node")
