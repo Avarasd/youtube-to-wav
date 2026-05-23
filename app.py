@@ -39,8 +39,9 @@ def convert():
     ydl_opts = {
         "format": "bestaudio/best/b/ba",
         "outtmpl": out_template,
+        "verbose": True,
         "extractor_args": {
-            "youtube": ["player_client=android,ios,tv,web,mweb"]
+            "youtube": ["player_client=android,ios"]
         },
         "postprocessors": [
             {
@@ -115,11 +116,12 @@ def info():
         return jsonify({"error": "Invalid YouTube URL."}), 400
 
     ydl_opts = {
-        "quiet": True, 
-        "no_warnings": True, 
+        "quiet": False, 
+        "no_warnings": False,
+        "verbose": True,
         "skip_download": True,
         "extractor_args": {
-            "youtube": ["player_client=android,ios,tv,web,mweb"]
+            "youtube": ["player_client=android,ios"]
         }
     }
 
