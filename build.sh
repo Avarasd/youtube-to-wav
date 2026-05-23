@@ -2,8 +2,9 @@
 # Exit on error
 set -e
 
-# Install Python dependencies
+# Install Python dependencies and FORCE upgrade yt-dlp to bypass Render cache
 pip install -r requirements.txt
+pip install --upgrade yt-dlp
 
 # Download and extract static ffmpeg if not present
 if [ ! -f "ffmpeg" ]; then
