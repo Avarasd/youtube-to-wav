@@ -1,11 +1,29 @@
 from flask import Flask, request, send_file, jsonify
 import yt_dlp
 import os
-import uuid
 import re
 import shutil
+import urllib.request
+import tarfile
+import uuid
 
-# Add current directory to PATH so yt-dlp can find the 'node' binary
+def ensure_node():
+    node_dir = "/tmp/node-v20.11.1-linux-x64"
+    node_bin = os.path.join(node_dir, "bin")
+    if not os.path.exists(os.path.join(node_bin, "node")):
+        print("Downloading Node.js for yt-dlp to solve YouTube signatures...", flush=True)
+        url = "https://nodejs.org/dist/v20.11.1/node-v20.11.1-linux-x64.tar.xz"
+        tar_path = "/tmp/node.tar.xz"
+        urllib.request.urlretrieve(url, tar_path)
+        print("Extracting Node.js...", flush=True)
+        with tarfile.open(tar_path, "r:xz") as tar:
+            tar.extractall(path="/tmp")
+        os.remove(tar_path)
+    os.environ["PATH"] += os.pathsep + node_bin
+
+ensure_node()
+
+# Add current directory to PATH so yt-dlp can find the 'ffmpeg' binary
 os.environ["PATH"] += os.pathsep + os.path.dirname(os.path.abspath(__file__))
 
 app = Flask(__name__, static_folder="static", template_folder="templates")
@@ -43,7 +61,6 @@ def convert():
         "outtmpl": out_template,
         "verbose": True,
         "noplaylist": True,
-        "impersonate": "chrome",
         "extractor_args": {
             "youtube": ["player_client=android,ios,tv,web,mweb"]
         },
@@ -125,7 +142,6 @@ def info():
         "verbose": True,
         "skip_download": True,
         "noplaylist": True,
-        "impersonate": "chrome",
         "extractor_args": {
             "youtube": ["player_client=android,ios,tv,web,mweb"]
         }
