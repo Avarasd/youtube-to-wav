@@ -40,6 +40,7 @@ def convert():
         "format": "bestaudio/best/b/ba",
         "outtmpl": out_template,
         "verbose": True,
+        "noplaylist": True,
         "extractor_args": {
             "youtube": ["player_client=android,ios"]
         },
@@ -120,6 +121,7 @@ def info():
         "no_warnings": False,
         "verbose": True,
         "skip_download": True,
+        "noplaylist": True,
         "extractor_args": {
             "youtube": ["player_client=android,ios"]
         }
