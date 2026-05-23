@@ -42,7 +42,7 @@ def convert():
         "verbose": True,
         "noplaylist": True,
         "extractor_args": {
-            "youtube": ["player_client=android,ios"]
+            "youtube": ["player_client=android,ios,tv,web,mweb"]
         },
         "postprocessors": [
             {
@@ -123,7 +123,7 @@ def info():
         "skip_download": True,
         "noplaylist": True,
         "extractor_args": {
-            "youtube": ["player_client=android,ios"]
+            "youtube": ["player_client=android,ios,tv,web,mweb"]
         }
     }
 
