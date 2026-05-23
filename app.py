@@ -43,6 +43,7 @@ def convert():
         "outtmpl": out_template,
         "verbose": True,
         "noplaylist": True,
+        "impersonate": "chrome",
         "extractor_args": {
             "youtube": ["player_client=android,ios,tv,web,mweb"]
         },
@@ -124,6 +125,7 @@ def info():
         "verbose": True,
         "skip_download": True,
         "noplaylist": True,
+        "impersonate": "chrome",
         "extractor_args": {
             "youtube": ["player_client=android,ios,tv,web,mweb"]
         }
