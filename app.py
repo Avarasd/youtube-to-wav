@@ -3,6 +3,7 @@ import yt_dlp
 import os
 import uuid
 import re
+import shutil
 
 app = Flask(__name__, static_folder="static", template_folder="templates")
 
@@ -54,7 +55,12 @@ def convert():
         cookie_path = "cookies.txt"
 
     if os.path.exists(cookie_path):
-        ydl_opts["cookiefile"] = cookie_path
+        tmp_cookie_path = "/tmp/yt_cookies.txt"
+        try:
+            shutil.copy2(cookie_path, tmp_cookie_path)
+            ydl_opts["cookiefile"] = tmp_cookie_path
+        except Exception:
+            ydl_opts["cookiefile"] = cookie_path
 
     try:
         with yt_dlp.YoutubeDL(ydl_opts) as ydl:
@@ -105,7 +111,12 @@ def info():
         cookie_path = "cookies.txt"
 
     if os.path.exists(cookie_path):
-        ydl_opts["cookiefile"] = cookie_path
+        tmp_cookie_path = "/tmp/yt_cookies.txt"
+        try:
+            shutil.copy2(cookie_path, tmp_cookie_path)
+            ydl_opts["cookiefile"] = tmp_cookie_path
+        except Exception:
+            ydl_opts["cookiefile"] = cookie_path
 
     try:
         with yt_dlp.YoutubeDL(ydl_opts) as ydl:
