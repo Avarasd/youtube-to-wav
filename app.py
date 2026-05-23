@@ -62,6 +62,9 @@ def convert():
         except Exception:
             ydl_opts["cookiefile"] = cookie_path
 
+    if os.path.exists("./ffmpeg"):
+        ydl_opts["ffmpeg_location"] = "./ffmpeg"
+
     try:
         with yt_dlp.YoutubeDL(ydl_opts) as ydl:
             info = ydl.extract_info(url, download=True)
@@ -117,6 +120,9 @@ def info():
             ydl_opts["cookiefile"] = tmp_cookie_path
         except Exception:
             ydl_opts["cookiefile"] = cookie_path
+
+    if os.path.exists("./ffmpeg"):
+        ydl_opts["ffmpeg_location"] = "./ffmpeg"
 
     try:
         with yt_dlp.YoutubeDL(ydl_opts) as ydl:

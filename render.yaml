@@ -2,6 +2,6 @@ services:
   - type: web
     name: youtube-to-wav
     runtime: python
-    buildCommand: pip install -r requirements.txt
-    startCommand: gunicorn app:app
+    buildCommand: bash build.sh
+    startCommand: gunicorn app:app --timeout 180
     plan: free
