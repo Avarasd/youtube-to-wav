@@ -37,7 +37,6 @@ def convert():
     out_path = f"/tmp/{job_id}.wav"
 
     ydl_opts = {
-        "format": "bestaudio/best/b/ba",
         "outtmpl": out_template,
         "verbose": True,
         "noplaylist": True,
