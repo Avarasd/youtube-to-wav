@@ -37,8 +37,11 @@ def convert():
     out_path = f"/tmp/{job_id}.wav"
 
     ydl_opts = {
-        "format": "bestaudio/best",
+        "format": "bestaudio/best/ba/b",
         "outtmpl": out_template,
+        "extractor_args": {
+            "youtube": ["player_client=android,ios,web"]
+        },
         "postprocessors": [
             {
                 "key": "FFmpegExtractAudio",
@@ -107,7 +110,14 @@ def info():
     if not url or not is_valid_youtube_url(url):
         return jsonify({"error": "Invalid YouTube URL."}), 400
 
-    ydl_opts = {"quiet": True, "no_warnings": True, "skip_download": True}
+    ydl_opts = {
+        "quiet": True, 
+        "no_warnings": True, 
+        "skip_download": True,
+        "extractor_args": {
+            "youtube": ["player_client=android,ios,web"]
+        }
+    }
 
     cookie_path = "/etc/secrets/cookies.txt"
     if not os.path.exists(cookie_path):
