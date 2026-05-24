@@ -1,17 +1,10 @@
 from flask import Flask, request, send_file, jsonify
-import yt_dlp
 import os
 import re
 import shutil
 import urllib.request
 import tarfile
 import uuid
-
-try:
-    from yt_dlp.networking.impersonate import ImpersonateTarget
-    IMPERSONATE_CHROME = ImpersonateTarget.from_str("chrome")
-except ImportError:
-    IMPERSONATE_CHROME = "chrome"
 
 def ensure_node():
     base_dir = os.path.dirname(os.path.abspath(__file__))
@@ -45,6 +38,13 @@ ensure_node()
 
 # Add current directory to PATH so yt-dlp can find the 'ffmpeg' binary
 os.environ["PATH"] += os.pathsep + os.path.dirname(os.path.abspath(__file__))
+
+import yt_dlp
+try:
+    from yt_dlp.networking.impersonate import ImpersonateTarget
+    IMPERSONATE_CHROME = ImpersonateTarget.from_str("chrome")
+except ImportError:
+    IMPERSONATE_CHROME = "chrome"
 
 app = Flask(__name__, static_folder="static", template_folder="templates")
 
