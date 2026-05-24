@@ -7,6 +7,12 @@ import urllib.request
 import tarfile
 import uuid
 
+try:
+    from yt_dlp.networking.impersonate import ImpersonateTarget
+    IMPERSONATE_CHROME = ImpersonateTarget.from_str("chrome")
+except ImportError:
+    IMPERSONATE_CHROME = "chrome"
+
 def ensure_node():
     base_dir = os.path.dirname(os.path.abspath(__file__))
     node_dir = os.path.join(base_dir, "node-v20.11.1-linux-x64")
@@ -75,7 +81,7 @@ def convert():
         "outtmpl": out_template,
         "verbose": True,
         "noplaylist": True,
-        "impersonate": "chrome",
+        "impersonate": IMPERSONATE_CHROME,
         "extractor_args": {
             "youtube": ["player_client=android,ios,tv,web,mweb"]
         },
@@ -168,7 +174,7 @@ def info():
         "verbose": True,
         "skip_download": True,
         "noplaylist": True,
-        "impersonate": "chrome",
+        "impersonate": IMPERSONATE_CHROME,
         "extractor_args": {
             "youtube": ["player_client=android,ios,tv,web,mweb"]
         }
