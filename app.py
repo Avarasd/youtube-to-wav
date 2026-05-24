@@ -82,6 +82,9 @@ def convert():
         "verbose": True,
         "noplaylist": True,
         "impersonate": IMPERSONATE_CHROME,
+        "js_runtimes": [
+            "node:" + os.path.join(os.path.dirname(os.path.abspath(__file__)), "node-v20.11.1-linux-x64", "bin", "node")
+        ],
         "extractor_args": {
             "youtube": ["player_client=android,ios,tv,web,mweb"]
         },
@@ -175,6 +178,9 @@ def info():
         "skip_download": True,
         "noplaylist": True,
         "impersonate": IMPERSONATE_CHROME,
+        "js_runtimes": [
+            "node:" + os.path.join(os.path.dirname(os.path.abspath(__file__)), "node-v20.11.1-linux-x64", "bin", "node")
+        ],
         "extractor_args": {
             "youtube": ["player_client=android,ios,tv,web,mweb"]
         }
