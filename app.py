@@ -90,11 +90,13 @@ def convert():
         "no_warnings": True,
     }
 
-    cookie_path = "/etc/secrets/cookies.txt"
-    if not os.path.exists(cookie_path):
-        cookie_path = "cookies.txt"
+    cookie_path = None
+    for cp in ["/etc/secrets/cookies.txt", "/etc/secrets/Cookies.txt", "cookies.txt", "Cookies.txt"]:
+        if os.path.exists(cp):
+            cookie_path = cp
+            break
 
-    if os.path.exists(cookie_path):
+    if cookie_path and os.path.exists(cookie_path):
         print(f"LOADING COOKIES FROM {cookie_path} for /convert", flush=True)
         tmp_cookie_path = "/tmp/yt_cookies.txt"
         try:
@@ -104,7 +106,7 @@ def convert():
             print(f"Failed to copy cookies: {e}", flush=True)
             ydl_opts["cookiefile"] = cookie_path
     else:
-        print(f"NO COOKIES FOUND AT {cookie_path}", flush=True)
+        print(f"NO COOKIES FOUND (tried /etc/secrets/cookies.txt etc)", flush=True)
 
     if os.path.exists("./ffmpeg"):
         ydl_opts["ffmpeg_location"] = "./ffmpeg"
@@ -138,9 +140,18 @@ def convert():
         return response
 
     except yt_dlp.utils.DownloadError as e:
+        import traceback
+        err_msg = traceback.format_exc()
+        print(f"DownloadError: {err_msg}", flush=True)
         return jsonify({"error": f"Download failed: {str(e)[:200]}"}), 422
     except Exception as e:
-        return jsonify({"error": f"Unexpected error: {str(e)[:200]}"}), 500
+        import traceback
+        err_msg = traceback.format_exc()
+        print(f"Unexpected error: {err_msg}", flush=True)
+        err_str = str(e)
+        if not err_str:
+            err_str = type(e).__name__
+        return jsonify({"error": f"Unexpected error: {err_str[:200]}"}), 500
 
 
 @app.route("/info")
@@ -163,11 +174,13 @@ def info():
         }
     }
 
-    cookie_path = "/etc/secrets/cookies.txt"
-    if not os.path.exists(cookie_path):
-        cookie_path = "cookies.txt"
+    cookie_path = None
+    for cp in ["/etc/secrets/cookies.txt", "/etc/secrets/Cookies.txt", "cookies.txt", "Cookies.txt"]:
+        if os.path.exists(cp):
+            cookie_path = cp
+            break
 
-    if os.path.exists(cookie_path):
+    if cookie_path and os.path.exists(cookie_path):
         print(f"LOADING COOKIES FROM {cookie_path} for /info", flush=True)
         tmp_cookie_path = "/tmp/yt_cookies.txt"
         try:
@@ -176,7 +189,7 @@ def info():
         except Exception:
             ydl_opts["cookiefile"] = cookie_path
     else:
-        print(f"NO COOKIES FOUND AT {cookie_path} for /info", flush=True)
+        print(f"NO COOKIES FOUND for /info", flush=True)
 
     if os.path.exists("./ffmpeg"):
         ydl_opts["ffmpeg_location"] = "./ffmpeg"
@@ -193,7 +206,13 @@ def info():
                 }
             )
     except Exception as e:
-        return jsonify({"error": str(e)[:200]}), 422
+        import traceback
+        err_msg = traceback.format_exc()
+        print(f"Info Unexpected error: {err_msg}", flush=True)
+        err_str = str(e)
+        if not err_str:
+            err_str = type(e).__name__
+        return jsonify({"error": err_str[:200]}), 422
 
 
 if __name__ == "__main__":
