@@ -1,5 +1,5 @@
 flask>=3.0
 yt-dlp==2025.10.14
-curl_cffi
+curl_cffi==0.5.10
 websockets
 gunicorn>=21.0

@@ -27,6 +27,13 @@ def ensure_node():
         os.chmod(node_exe, 0o755)
         
     os.environ["PATH"] = node_bin + os.pathsep + os.environ.get("PATH", "")
+    
+    import subprocess
+    try:
+        res = subprocess.run([node_exe, "-v"], capture_output=True, text=True)
+        print(f"NODE CHECK stdout: {res.stdout}, stderr: {res.stderr}", flush=True)
+    except Exception as e:
+        print(f"NODE CHECK failed: {e}", flush=True)
 
 ensure_node()
 
@@ -68,6 +75,7 @@ def convert():
         "outtmpl": out_template,
         "verbose": True,
         "noplaylist": True,
+        "impersonate": "chrome",
         "extractor_args": {
             "youtube": ["player_client=android,ios,tv,web,mweb"]
         },
@@ -149,6 +157,7 @@ def info():
         "verbose": True,
         "skip_download": True,
         "noplaylist": True,
+        "impersonate": "chrome",
         "extractor_args": {
             "youtube": ["player_client=android,ios,tv,web,mweb"]
         }
